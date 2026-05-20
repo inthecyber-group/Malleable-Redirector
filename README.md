@@ -6,7 +6,7 @@ Malleable Redirector parses a CS malleable profile and emits a hardened `.htacce
 
 *Intended for authorised red team engagements only.*
 
----
+
 
 ## Features
 
@@ -22,7 +22,7 @@ Malleable Redirector parses a CS malleable profile and emits a hardened `.htacce
 
 - **Staging awareness.** If your profile doesn't set `host_stage "false"`, the tool warns loudly before generation. Staging rules are not generated — by design.
 
----
+
 
 ## How it works
 
@@ -62,7 +62,7 @@ Rules are emitted in this fixed order so each gate is evaluated before the next:
 
 The probe path filter (section 4) intentionally comes after proxy routes (section 3) — a `.php` or `.aspx` URI in your malleable profile is proxied before the filter ever sees it.
 
----
+
 
 ## Setup and usage
 
@@ -170,7 +170,7 @@ sudo a2ensite redirector.conf
 sudo apachectl configtest && sudo systemctl reload apache2
 ```
 
----
+
 
 ## CLI reference
 
@@ -194,7 +194,7 @@ usage: profile_to_htaccess.py profile [options]
 | `--document-root PATH` | `/var/www/redirector` | For the setup report only. |
 | `--site-name NAME` | `redirector` | For the setup report only. |
 
----
+
 
 ## Limitations
 
@@ -202,7 +202,7 @@ usage: profile_to_htaccess.py profile [options]
 
 - **nginx is not yet supported.** The internal `parse → build_routes → render` pipeline is designed for it — nginx support requires only a new renderer, no changes to parsing or route logic.
 
----
+
 
 ## Credits
 
