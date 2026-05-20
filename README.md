@@ -2,7 +2,7 @@
 
 Apache `.htaccess` redirector generation from Cobalt Strike malleable C2 profiles.
 
-Malleable Redirector parses a CS malleable profile and emits a hardened `.htaccess` that proxies only legitimate beacon traffic to your team server, sending everything else — scanners, bots, blue team probes — to a convincing decoy. It understands the profile DSL well enough to enforce exact header matching on beacon comms endpoints, not just UA filtering.
+Malleable Redirector parses a CS malleable profile and emits a hardened `.htaccess` that proxies only legitimate beacon traffic to your team server, sending everything else, scanners, bots, blue team probes, to a convincing decoy. It understands the profile DSL well enough to enforce exact header matching on beacon comms endpoints, not just UA filtering.
 
 *Intended for authorised red team engagements only.*
 
@@ -12,7 +12,7 @@ Malleable Redirector parses a CS malleable profile and emits a hardened `.htacce
 
 - **Precise header matching on beacon routes.** Extracts every `client {}` header from the profile (`Accept`, `Accept-Language`, `Content-Type`, etc.) and enforces them as `RewriteCond` on the exact URIs where the beacon sends them. A scanner with the right UA still gets turned away if it doesn't send the right headers.
 
-- **Three-track URI model.** Profile URIs (beacon comms), operator-added staging URIs, and lax/unconditional URIs each get their own track with appropriate matching — no one-size-fits-all policy.
+- **Three-track URI model.** Profile URIs (beacon comms), operator-added staging URIs, and lax/unconditional URIs each get their own track with appropriate matching, no one-size-fits-all policy.
 
 - **Correct rule ordering.** Profile proxy rules run *before* the probe path filter, so `.php` or `.aspx` URIs in your profile are proxied rather than blocked by the probe filter that comes after.
 
@@ -20,7 +20,7 @@ Malleable Redirector parses a CS malleable profile and emits a hardened `.htacce
 
 - **Multi-URI support.** `set uri "/path1 /path2";` is correctly split into separate routes.
 
-- **Staging awareness.** If your profile doesn't set `host_stage "false"`, the tool warns loudly before generation. Staging rules are not generated — by design.
+- **Staging awareness.** If your profile doesn't set `host_stage "false"`, the tool warns loudly before generation. Staging rules are not generated, by design.
 
 
 
@@ -60,7 +60,7 @@ Rules are emitted in this fixed order so each gate is evaluated before the next:
 5  Catch-all → decoy
 ```
 
-The probe path filter (section 4) intentionally comes after proxy routes (section 3) — a `.php` or `.aspx` URI in your malleable profile is proxied before the filter ever sees it.
+The probe path filter (section 4) intentionally comes after proxy routes (section 3), a `.php` or `.aspx` URI in your malleable profile is proxied before the filter ever sees it.
 
 
 
@@ -200,10 +200,10 @@ usage: profile_to_htaccess.py profile [options]
 
 - **Beacon staging rules are not generated.** If your profile has `host_stage` enabled (or unset), the tool warns before generating. Add `set host_stage "false";` to suppress. Staging from a redirector adds operational complexity with limited benefit.
 
-- **nginx is not yet supported.** The internal `parse → build_routes → render` pipeline is designed for it — nginx support requires only a new renderer, no changes to parsing or route logic.
+- **nginx is not yet supported.** The internal `parse → build_routes → render` pipeline is designed for it, nginx support requires only a new renderer, no changes to parsing or route logic.
 
 
 
 ## Credits
 
-Thanks to the team behind [cs2modrewrite](https://github.com/threatexpress/cs2modrewrite) — the original tool that sparked the idea for this project and established the concept of malleable profile-driven redirector generation.
+Thanks to the team behind [cs2modrewrite](https://github.com/threatexpress/cs2modrewrite) for their inspiration.
